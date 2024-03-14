@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!--=============== FAVICON ===============-->
+      <!-- <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon"> -->
+      <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+      <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+      <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png"> 
+      <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png"> 
+      <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+      <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+      <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png"> 
+      <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png"> 
+      <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+      <link rel="manifest" href="favicon/manifest.json">
+      <meta name="msapplication-TileColor" content="#ffffff">
+      <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+      <meta name="theme-color" content="#ffffff">      
+
+
+      <!--=============== REMIXICONS ===============-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+
+      <!--=============== SWIPER CSS ===============-->
+      <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+      <!--=============== CSS ===============-->
+      <link rel="stylesheet" href="assets/css/styles.css">
+
+      <title>Sahnwaz Profile</title>
+      
+
+   </head>
+   <body>
+      <!--==================== HEADER ====================-->
+      <header class="header" id="header">
+          <nav class="nav container">
+         <a href="index.html" class="nav__logo"></a>
+
+         <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list-menu">
+
+               <li class="nav__item" id="Home">
+                  <a href="index.html" class="button">Home</a>
+               </li> 
+
+               <li class="nav__item" id="About_Me">
+                  <a href="about.html" class="button">About Me</a>
+               </li>
+
+               <li class="nav__item" id="Portfolio">
+                  <a href="work.html" class="button">Portfolio</a>
+               </li>
+
+               <li class="nav__item" id="Contact_Me">
+                  <a href="contact.html" class="button">Contact Me</a>
+               </li>
+            </ul>
+
+            <!--Close Button-->
+            <div class="nav__close" id="nav--close">
+               <i class="ri-close-line"></i>
+
+            </div>
+         </div> 
+         <div class="nav__action">
+         <!--Theme Button-->
+         <i class="ri-moon-fill change-theme" id="theme-button"></i>
+
+
+         <!--Toggle Button-->
+         <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-apps-2-line"></i>
+         </div>
+           </div>
+          </nav>
+
+
+
+       <!-- translate button -->
+       <div id="google_translate_container">
+       <div id="google_translate_element"></div>
+       </div>
+     
+       <script type="text/javascript">
+     
+     
+         //chat ai code
+     
+         // Replace 'YOUR_API_KEY' and 'YOUR_API_ENDPOINT' with your actual API key and endpoint
+         const apiKey = 'ek9DJ4TyMZcywa3KDmv5hFWJuOcw96GBdxtZhhGwpRK7zMX2';
+         const apiEndpoint = 'https://ai-foundation-api.app/ai-foundation/chat-ai/gpt4';
+     
+         function sendMessage() {
+           const userInput = document.getElementById('user-input').value;
+           const chatBox = document.getElementById('chat-box');
+     
+           // Display user message in the chat box
+           appendMessage('user', userInput);
+     
+           // Make a request to the ChatAI API
+           makeApiRequest(userInput)
+             .then(response => {
+               const assistantResponse = response.choices[0].message.content;
+               // Display assistant's response in the chat box
+               appendMessage('assistant', assistantResponse);
+             })
+             .catch(error => {
+               console.error('Error:', error);
+               appendMessage('assistant', 'Oops! An error occurred.');
+             });
+           document.getElementById("user-input").value = '';
+         }
+     
+         function makeApiRequest(userMessage) {
+           const apiUrl = apiEndpoint;
+     
+           const requestData = {
+             messages: [{ role: 'user', content: userMessage }],
+           };
+     
+           return fetch(apiUrl, {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json',
+               'api-key': apiKey,
+             },
+             body: JSON.stringify(requestData),
+           })
+             .then(response => response.json());
+         }
+     
+         function appendMessage(role, content) {
+           const chatBox = document.getElementById('chat-box');
+           const messageElement = document.createElement('div');
+           messageElement.className = 'content ' + role + '-content';
+           messageElement.textContent = role.charAt(0).toUpperCase() + role.slice(1) + ': ' + content;
+           chatBox.appendChild(messageElement);
+           // Scroll to the bottom of the chat box
+           chatBox.scrollTop = chatBox.scrollHeight;
+         }
+     
+         function openForm() {
+           document.getElementById("myForm").style.display = "block";
+           document.getElementById("user-input").value = '';
+         }
+     
+         function closeForm() {
+           document.getElementById("myForm").style.display = "none";
+           document.getElementById("chat-box").innerHTML = '';
+         }
+         function clearForm() {
+           document.getElementById("user-input").value = '';
+           document.getElementById("chat-box").innerHTML = '';
+         }
+         ///end 
+     
+         // progress bar code
+         document.addEventListener("DOMContentLoaded", function () {
+           const readingProgressContainer = document.getElementById('reading-progress-container');
+           const readingProgress = document.getElementById('reading-progress');
+           const progressPercentage = document.getElementById('progress-percentage');
+     
+           // Calculate and update reading progress
+           function updateReadingProgress() {
+             const scrollPosition = window.scrollY;
+             const totalHeight = document.body.scrollHeight - window.innerHeight;
+             const progress = Math.round((scrollPosition / totalHeight) * 100);
+             readingProgress.style.width = Math.min(100, progress) + '%';
+             progressPercentage.textContent = Math.min(100, progress) + '%';
+           }
+     
+           // Add scroll event listener to update progress
+           window.addEventListener('scroll', updateReadingProgress);
+         });
+     
+         ///end progress bar
+     
+     
+         function googleTranslateElementInit() {
+           new google.translate.TranslateElement(
+             { pageLanguage: 'en' },
+             'google_translate_element'
+           );
+         }
+
+
+     
+         // Wait for the page to load
+         document.addEventListener("DOMContentLoaded", function () {
+           // Get the Google Translate element
+           var translateElement = document.getElementById('google_translate_element');
+     
+           // Get the container div where you want to move the element
+           var container = document.getElementById('google_translate_container');
+     
+           // Move the translate element into the container
+           container.appendChild(translateElement);
+     
+           // Load the Google Translate script
+           var script = document.createElement('script');
+           script.type = 'text/javascript';
+           script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+           document.body.appendChild(script);
+         });
+
+
+
+         
+     
+     
+     
+     
+         $('.news-headline').slick({
+           slidesToShow: 4,
+           slidesToScroll: 1,
+           autoplay: true,
+           autoplaySpeed: 2000,
+           responsive: [
+             {
+               breakpoint: 1200,
+               settings: {
+                 slidesToShow: 3,
+                 slidesToScroll: 1,
+                 infinite: true,
+                 dots: false
+               }
+             },
+             {
+               breakpoint: 900,
+               settings: {
+                 slidesToShow: 2,
+                 slidesToScroll: 1,
+                 infinite: true,
+                 dots: false
+               }
+             },
+             {
+               breakpoint: 550,
+               settings: {
+                 slidesToShow: 1,
+                 slidesToScroll: 1,
+                 infinite: true,
+                 dots: false
+               }
+             }
+           ]
+         });
+     
+       </script>
+     
+
+       
+
+          
+      </header>
+
+
+      
+
+
+
+      <!--==================== MAIN ====================-->
+      <main class="main">
+      
+         <!--==================== HOME ====================-->
+         <section class="home section">
+            <div class="home__rectangle"></div>
+            <div class="home__container container grid">
+               <div class="home__perfil perfil">
+                    <div class="perfil__content">
+                     <img src="assets/img/home-perfil.png" alt="image" class="perfil__img">
+                    </div>
+               </div>
+
+               <div class="home__content grid">
+                  <div class="home__data grid">
+                     <h1 class="home__name">Sahnwaz Saikh</h1>
+                      <h2 class="home__profession">Application Developer</h2>
+
+                       <div class="home__social">
+                        <a href="https://github.com/Sahn83"  target="_blank" class="home__social-link">
+                           <i class="ri-github-fill"></i>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/sahnwaz-%E3%82%B5%E3%83%8F%E3%83%8A%E3%83%AF%E3%82%BA-3721ba1b3/"  target="_blank" class="home__social-link">
+                           <i class="ri-linkedin-box-fill"></i>
+                        </a>
+
+                        <a href="https://www.instagram.com/_beingsaikh_/"  target="_blank" class="home__social-link">
+                           <i class="ri-instagram-line"></i>
+                        </a>
+                       </div>
+                  </div>
+
+                  <a href="assets/SahnwazCv.pdf" download="" class="home__button button"></a>
+
+               </div>               
+            </div>
+         </section>
+
+         <!--==================== SERVICES ====================-->
+         <section class="services section">
+            <h2 class="section__title">
+               The Services 
+                I Offer
+            </h2>
+
+            <div class="services__container container grid">
+               <article class="services__card">
+                  <i class="ri-code-s-slash-line services__icon"></i> 
+                  <h2 class="services__title">Web Developer</h2>
+                  <p class="services__description">
+                     Beautiful and elegant designs with 
+                     interfaces that are intuitive, efficient and 
+                     pleasant to use for the user.
+                  </p>
+
+
+                  <button class="services__button button">Know more</button>
+
+
+                  <div class="services__modal">
+                     <div class="services__modal-content">
+                        <i class="ri-close-circle-line services__modal-close"></i>
+
+                        <h2 class="services__modal-title">Web Developer</h2>
+
+                        <ul class="services__modal-list grid">
+                           <li class="services__modal-item">
+                              Create professional and quality websites at the client's request.
+                           </li>
+
+                           <li class="services__modal-item">
+                              I do web design in prototypes.
+                           </li>
+
+                           <li class="services__modal-item">
+                              
+                             I position your website with advanced SEO.
+                           </li>
+
+
+                           <li class="services__modal-item">
+                            I solve performance problems on web pages.
+                          
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+
+               </article>
+
+               <article class="services__card">
+                  <i class="ri-quill-pen-line services__icon"></i>
+                  <h2 class="services__title">Web designer</h2>
+                  <p class="services__description">
+                     Beautiful and elegant designs with 
+                     interfaces that are intuitive, efficient and 
+                     pleasant to use for the user.
+                  </p>
+
+
+                  <button class="services__button button">Know more</button>
+
+
+                  <div class="services__modal">
+                     <div class="services__modal-content">
+                        <i class="ri-close-circle-line services__modal-close"></i>
+
+                        <h2 class="services__modal-title">Web designer</h2>
+
+                        <ul class="services__modal-list grid">
+                           <li class="services__modal-item">
+                              Create professional and quality websites at the client's request.
+                           </li>
+
+                           <li class="services__modal-item">
+                              I do web design in prototypes.
+                           </li>
+
+                           <li class="services__modal-item">
+                              
+                             I position your website with advanced SEO.
+                           </li>
+
+                           <li class="services__modal-item">
+                              I solve performance problems on web pages.
+                            
+                             </li>
+
+                             <li class="services__modal-item">
+                              I solve performance problems on web pages.
+                            
+                             </li>
+
+                             <li class="services__modal-item">
+                              I solve performance problems on web pages.
+                            
+                             </li>
+
+                             <li class="services__modal-item">
+                              I solve performance problems on web pages.
+                            
+                             </li>
+
+
+
+                           <li class="services__modal-item">
+                            I solve performance problems on web pages.
+                          
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+
+
+
+               </article>
+
+               <article class="services__card">
+                  <i class="ri-layout-4-line services__icon"></i> 
+                  <h2 class="services__title">Interfaces UI/UX</h2>
+                  <p class="services__description">
+                     Beautiful and elegant designs with 
+                     interfaces that are intuitive, efficient and 
+                     pleasant to use for the user.
+                  </p>
+
+
+                  <button class="services__button button">Know more</button>
+
+
+
+                  <div class="services__modal">
+                     <div class="services__modal-content">
+                        <i class="ri-close-circle-line services__modal-close"></i>
+
+                        <h2 class="services__modal-title">Interfaces UI/UX</h2>
+
+                        <ul class="services__modal-list grid">
+                           <li class="services__modal-item">
+                              Create professional and quality websites at the client's request.
+                           </li>
+
+                           <li class="services__modal-item">
+                              I do web design in prototypes.
+                           </li>
+
+                           <li class="services__modal-item">
+                              
+                             I position your website with advanced SEO.
+                           </li>
+
+
+                           <li class="services__modal-item">
+                            I solve performance problems on web pages.
+                          
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+
+
+
+
+               </article>
+
+
+
+            </div>
+
+         </section>
+
+         <!--==================== WORK ====================-->
+         <section class="work section">
+            <h2 class="section__title">
+               My Most <br>
+               Recent Works
+            </h2>
+
+            <div class="work__container container grid">
+
+               <article class="work__card">
+                  <a href="#" target="blank" class="work__link">
+                     <img src="assets/img/work-1.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Creative Web Design</h2>
+                  <span class="work__subtitle">Website Design</span>
+
+               </article>
+
+               
+               <article class="work__card">
+                  <a href="#" target="blank" class="work__link">
+                     <img src="assets/img/work-2.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Creative Web Design</h2>
+                  <span class="work__subtitle">Website Design</span>
+
+               </article>
+
+               
+               <article class="work__card">
+                  <a href="#" target="blank" class="work__link">
+                     <img src="assets/img/work-3.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Awesome App</h2>
+                  <span class="work__subtitle">App Design</span>
+
+               </article>
+
+               
+               <article class="work__card">
+                  <a href="#"  target="blank" class="work__link">
+                     <img src="assets/img/work-4.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Creative Web Design</h2>
+                  <span class="work__subtitle">Website Design</span>
+
+               </article>
+
+               <article class="work__card">
+                  <a href="#" target="blank" class="work__link">
+                     <img src="assets/img/work-1.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Creative Web Design</h2>
+                  <span class="work__subtitle">Website Design</span>
+
+               </article>
+
+               
+               <article class="work__card">
+                  <a href="#" target="blank" class="work__link">
+                     <img src="assets/img/work-5.png" alt="image" class="work__img">
+                     <i class="ri-arrow-right-circle-line work__icon"></i>
+                  </a>
+
+                  <h2 class="work__title">Interface design</h2>
+                  <span class="work__subtitle">UI/UX</span>
+
+               </article>
+
+
+            </div>
+
+
+         </section>
+
+         <!--==================== TESTIMONIAL ====================-->
+         <section class="testimonial section">
+            <h2 class="section__title">
+               what they say <br>
+               about me ?
+            </h2>
+
+
+            <div class="testimonial__container container">
+               <div class="testimonial__swiper swiper">
+                  <div class="swiper-wrapper">
+                     <article class="testimonial__card swiper-slide">
+                        <div class="testimonial__border">
+                           <img src="assets/img/testimonial-1.png" alt="image" class="testimonial__img">
+                        </div>
+
+                        <h2 class="testimonial__name">Mansi Mahajan</h2>
+                        <p class="testimonial__description">
+                           I hired a project and the services were of 
+quality, the work delivered is of good 
+content, excellent work.
+                        </p>
+                     </article>
+
+                     <article class="testimonial__card swiper-slide">
+                        <div class="testimonial__border">
+                           <img src="assets/img/testimonial-2.png" alt="image" class="testimonial__img">
+                        </div>
+
+                        <h2 class="testimonial__name">Abhishek Kumar</h2>
+                        <p class="testimonial__description">
+                           Working with my friend on our web project was a breeze! 
+                           Their UI design skills are unmatched, delivering a sleek and user-friendly website. 
+                           
+                        </p>
+                     </article>
+
+
+                     <article class="testimonial__card swiper-slide">
+                        <div class="testimonial__border">
+                           <img src="assets/img/testimonial-3.png" alt="image" class="testimonial__img">
+                        </div>
+
+                        <h2 class="testimonial__name">Deepa jha</h2>
+                        <p class="testimonial__description">
+                           Absolutely impressed with my friend's web development work! 
+                           Their attention to detail and intuitive UI design made our project a success. 
+                           
+                        </p>
+                     </article>
+                  </div>
+               
+               </div>
+
+               <!-- pagination -->
+             <div class="swiper-pagination"></div>
+
+
+
+
+            </div>
+
+         </section>
+
+         <!--==================== CONTACT ====================-->
+         <section class="contact section">
+            <div class="contact__container container grid">
+               <h2 class="section__title">
+                  Let's talk <br>
+                  About Your Project
+               </h2>
+
+               <a href="contact.html" class="contact__button button">Contact Me</a>
+
+            </div>
+         </section>
+      </main>
+
+      <!--==================== FOOTER ====================-->
+      <footer class="footer">
+         <div class="footer__container container grid">
+            <div class="footer__content grid">
+               <a href="index.html" class="footer__logo">Sahnwaz Saikh</a>
+                  <ul class="footer__links">
+
+                   <li>
+                     <a href="about.html" class="footer__link">About Me</a>
+                   </li>
+
+                   <li>
+                     <a href="work.html" class="footer__link">Portfolio</a>
+                   </li>
+
+                   <li>
+                     <a href="contact.html" class="footer__link">Contact Me</a>
+                   </li>
+
+                  </ul> 
+                  
+                  <div class="footer__social">
+                     
+                     <a href="https://www.facebook.com/profile.php?id=100009543211615" target="_blank" class="footer__social-link">
+                        <i class="ri-facebook-box-fill"></i>
+                     </a>
+
+                     <a href="https://www.instagram.com/_beingsaikh_/" target="_blank" class="footer__social-link">
+                        <i class="ri-instagram-line"></i>
+                     </a>
+
+                     <a href="https://www.linkedin.com/in/sahnwaz-%E3%82%B5%E3%83%8F%E3%83%8A%E3%83%AF%E3%82%BA-3721ba1b3/" target="_blank" class="footer__social-link">
+                        <i class="ri-linkedin-box-fill"></i>
+                     </a>
+
+                     <a href="https://twitter.com/_beingsaikh_" target="_blank" class="footer__social-link">
+                        <i class="ri-twitter-fill"></i>
+                     </a>
+            
+                  </div>        
+             </div>
+
+             <span class="footer__copy">
+               &#169; All Rights Reserved By Sahnwaz
+             </span>
+           </div>
+      </footer>
+
+      <!--========== SCROLL UP ==========-->
+           <a href="" class="scrollup" id="scroll-up">
+            <i class="ri-arrow-up-line"></i>
+           </a>
+
+      <!--=============== MAIN JS ===============-->
+      <script src="assets/js/main.js"></script>
+
+      <!--=============== SWIPER JS ===============-->
+      <script src="assets/js/swiper-bundle.min.js"></script>
+
+      <!--=============== INDEX JS ===============-->
+      <script src="assets/js/index.js"></script>
+   </body>
+</html>
